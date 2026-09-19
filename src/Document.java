@@ -25,4 +25,7 @@ public class Document{
     public String toString() {
         return data.toString();
     }
+    public HashMap<String,Object> getdata(){
+        return data;
+    }
 }

@@ -25,4 +25,7 @@ public class Collection{
     public String toString(){
         return documents.toString();
     }
+    public HashMap<String, Document> getDocuments(){
+        return documents;
+    }
 }
