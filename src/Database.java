@@ -32,30 +32,31 @@ public class Database{
     public HashMap<String,Collection> getAll(){
         return collections;
     }
+    
     public void save() throws Exception {
-        String content = "{"+"\n ";
-        int collectionCounter = 0 ; 
+        String content = "{";
+        int collectionCounter = 0 ;
         for (Map.Entry<String,Collection>collectionentry:collections.entrySet()){
             if(collectionCounter != 0){
-                content = content + ","+"\n";
+                content = content + ",";
             }
             collectionCounter++;
             Collection documentvalue = collectionentry.getValue();
             HashMap<String, Document> documents = documentvalue.getDocuments();
-            content = content+"\""+collectionentry.getKey()+"\""+": "+"{"+"\n   ";
+            content = content+"\""+collectionentry.getKey()+"\""+": "+"{";
             int documentCounter = 0;
             for(Map.Entry<String, Document> documentEntry : documents.entrySet()){
                 if (documentCounter != 0){
-                    content = content +","+ "\n   ";
+                    content = content +",";
                 }
                 documentCounter++;
                 Document data = documentEntry.getValue();
                 HashMap<String, Object> fields = data.getdata();
-                content=content+"\""+documentEntry.getKey()+"\""+": "+"{"+"\n    ";
+                content=content+"\""+documentEntry.getKey()+"\""+": "+"{";
                 int dataCounter = 0;
                 for(Map.Entry<String, Object> fieldEntry : fields.entrySet()){
                     if (dataCounter != 0) {
-                        content = content + ","+"\n    ";
+                        content = content + ",";
                     }
                     String valueString;
                     String escapedValue;
@@ -70,18 +71,72 @@ public class Database{
                         valueString = String.valueOf(fieldEntry.getValue());
                     }
                     dataCounter++;
-                    // System.out.println(fieldEntry.getKey() + " = " + fieldEntry.getValue());
                     content=content+"\""+fieldEntry.getKey()+"\""+":"+valueString;
                 }
-                content = content +"\n   "+"}";
+                content = content +"}";
             }
-            content = content +"\n "+"}";
+            content = content +"}";
         }
-        content = content +"\n"+"}"+"\n";
+        content = content +"}";
         Files.writeString(path, content);
     }
     public void load() throws Exception {
-        String loadData = Files.readString(path);
-        System.out.println(loadData);
+        Collection currentCollection = null;
+        Document currentDocument = null;
+        String content = Files.readString(path);
+        boolean insideQuotes = false;
+        StringBuilder currentString = new StringBuilder();
+        String key = null;
+        int depth = 0 ;
+        boolean waitingForValue = false;
+        for (int i = 0; i < content.length(); i++) {
+            char currentChar = content.charAt(i);
+            if (currentChar == '{') {
+                depth++;
+            } else if (currentChar == '}') {
+                depth--;
+            } else if (currentChar == '"') {
+                insideQuotes = !insideQuotes;
+                if (!insideQuotes) {
+                if (waitingForValue) {
+                    String value = currentString.toString();
+                    currentDocument.put(key, value);
+                    waitingForValue = false;
+                } else {
+                    key = currentString.toString();
+                }
+
+                currentString.setLength(0);
+            }
+            } else if (insideQuotes) {
+                currentString.append(currentChar);
+                
+            }
+            if(currentChar == ':' && !insideQuotes){
+                if (depth == 1){
+                    currentCollection = new Collection();
+                    put(key,currentCollection);
+                }else if(depth == 2){
+                    currentDocument = new Document();
+                    currentCollection.put(key,currentDocument);
+                }else if(depth == 3){
+                    waitingForValue = true;
+                }
+            }
+            if (waitingForValue && !insideQuotes) {
+                if (Character.isDigit(currentChar)) {
+                    currentString.append(currentChar);
+                }
+                if (currentChar == ',' || currentChar == '}') {
+                    String valueString = currentString.toString();
+                    if (!valueString.isEmpty()) {
+                        int value = Integer.parseInt(valueString);
+                        currentDocument.put(key, value);
+                    }
+                    currentString.setLength(0);
+                    waitingForValue = false;
+                }
+            }
+        }
     }
 }
