@@ -21,5 +21,8 @@ public class Collection{
     public HashMap<String, Document> getAll(){
         return documents;
     }
-
+    @Override 
+    public String toString(){
+        return documents.toString();
+    }
 }

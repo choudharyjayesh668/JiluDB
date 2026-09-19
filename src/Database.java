@@ -12,5 +12,13 @@ public class Database{
     public Collection get(String key){
         return collections.get(key);
     }
-    
+    public void remove(String key){
+        collections.remove(key);
+    }
+    public boolean containsKey(String key){
+        return collections.containsKey(key);
+    }
+    public HashMap<String,Collection> getAll(){
+        return collections;
+    }
 }
