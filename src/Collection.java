@@ -12,4 +12,14 @@ public class Collection{
     public Document get(String key){
         return documents.get(key);
     }
+    public void remove(String key){
+        documents.remove(key);
+    }
+    public boolean containsKey(String key){
+        return documents.containsKey(key);
+    }
+    public HashMap<String, Document> getAll(){
+        return documents;
+    }
+
 }

@@ -26,6 +26,7 @@ public class Main{
 
         System.out.println("Name 2= "+name2);
         System.out.println("age 2= "+age2);
-        System.out.println(collectionsdata.getAll());
+        
+        System.out.println(collectionTrial.getAll());
     }
 }

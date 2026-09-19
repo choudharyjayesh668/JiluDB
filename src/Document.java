@@ -21,4 +21,8 @@ public class Document{
     public Object getAll(){
         return data;
     }
+    @Override 
+    public String toString() {
+        return data.toString();
+    }
 }
