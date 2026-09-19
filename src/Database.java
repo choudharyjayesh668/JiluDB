@@ -12,4 +12,5 @@ public class Database{
     public Collection get(String key){
         return collections.get(key);
     }
+    
 }

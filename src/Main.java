@@ -21,11 +21,11 @@ public class Main{
         String name2 = (String) collectionsdata2.get("name");
         int age2 = (int) collectionsdata2.get("age");
 
-        System.out.println(name);
-        System.out.println(age);
+        System.out.println("Name = "+ name);
+        System.out.println( "age = "+ age);
 
-        System.out.println(name2);
-        System.out.println(age2);
-
+        System.out.println("Name 2= "+name2);
+        System.out.println("age 2= "+age2);
+        System.out.println(collectionsdata.getAll());
     }
 }

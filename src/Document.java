@@ -12,4 +12,13 @@ public class Document{
     public Object get(String key){
         return data.get(key);
     }
+    public boolean containsKey(String key) {
+        return data.containsKey(key);
+    }
+    public void remove(String key){
+        data.remove(key);
+    }
+    public Object getAll(){
+        return data;
+    }
 }
