@@ -2,7 +2,7 @@
 import java.util.HashMap;
 
 public class Collection{
-    private HashMap<String,Document>documents;
+    private final HashMap<String,Document>documents;
     public Collection(){
         documents = new HashMap<>();
     }

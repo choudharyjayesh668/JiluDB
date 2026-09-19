@@ -2,7 +2,7 @@
 import java.util.HashMap;
 
 public class Document{
-    private HashMap<String,Object>data;
+    private final HashMap<String,Object>data;
     public Document(){
         data = new HashMap<>();
     }
