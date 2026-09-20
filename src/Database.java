@@ -139,4 +139,27 @@ public class Database{
             }
         }
     }
+    public void insert(String collectionName,String documentName,String key,Object value){
+        Collection currentCollection = null;
+        if(collections.containsKey(collectionName)){
+            System.out.println("Collection Exists");
+            currentCollection = collections.get(collectionName);
+        }else{
+            System.out.println("Collection Doesent extis");
+            Collection newCollection = new Collection();
+            currentCollection= newCollection;
+            put(collectionName, currentCollection);
+        }
+        Document currDocument = null;
+        if(currentCollection.containsKey(documentName)){
+            System.out.println("Document Exists");
+            currDocument = currentCollection.get(documentName);
+        }else{
+            System.out.println("Document Doesent exits");
+            Document newDocument = new Document();
+            currDocument = newDocument;
+            currentCollection.put(documentName,currDocument);
+        }
+        currDocument.put(key, value);
+    }
 }
