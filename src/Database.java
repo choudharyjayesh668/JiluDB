@@ -143,20 +143,18 @@ public class Database{
     public void insert(String collectionName,String documentName,String key,Object value){
         Collection currentCollection = null;
         if(collections.containsKey(collectionName)){
-            System.out.println("Collection Exists");
+            // System.out.println("Collection Exists");
             currentCollection = collections.get(collectionName);
         }else{
-            System.out.println("Collection Doesent extis");
             Collection newCollection = new Collection();
             currentCollection= newCollection;
             put(collectionName, currentCollection);
         }
         Document currDocument = null;
         if(currentCollection.containsKey(documentName)){
-            System.out.println("Document Exists");
+            // System.out.println("Document Exists");
             currDocument = currentCollection.get(documentName);
         }else{
-            System.out.println("Document Doesent exits");
             Document newDocument = new Document();
             currDocument = newDocument;
             currentCollection.put(documentName,currDocument);
@@ -165,6 +163,7 @@ public class Database{
     }
     public HashMap<String, Document> find(String collectionName, String key, Object value) {
         HashMap<String, Document> result = new HashMap<>();
+        
         if (collections.containsKey(collectionName)) {
             Collection currCollection = collections.get(collectionName);
             HashMap<String, Document> allDocument = currCollection.getAll();
@@ -174,7 +173,7 @@ public class Database{
                 if (documentData.containsKey(key)) {
                     Object currentValue = documentData.get(key);
                     if (Objects.equals(currentValue, value)) {
-                        System.out.println("Found");
+                        // System.out.println("Found");
                         result.put(entry.getKey(), entry.getValue());
                     }
                 }
@@ -183,6 +182,17 @@ public class Database{
         } else {
             System.out.println("Collection Doesent exist");
             return null;
+        }
+    }
+    public void update(String collectionName,String searchKey,Object searchValue,String updateKey,Object updateValue){
+        HashMap<String,Document>result = find(collectionName, searchKey, searchValue);
+        if (result == null) {
+            System.out.println("Collection not found");
+            // return;
+        }
+        for(Map.Entry<String,Document> entry : result.entrySet()){
+            Document document = entry.getValue();
+            document.put(updateKey,updateValue);
         }
     }
 }

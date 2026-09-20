@@ -1,28 +1,21 @@
 public class Main{
     public static void main(String[] args) throws Exception {
+    
         Database database = new Database();
-
-        // Collection 1
-        Collection users = new Collection();
-
-        Document jayesh = new Document();
-        jayesh.put("name", "Jayesh");
-        jayesh.put("age", 21);
-        jayesh.put("active", true);
-        
-        Document dharmendra = new Document();
-        dharmendra.put("name", "Dharmendra");
-        dharmendra.put("age", 24);
-
-        users.put("user1", jayesh);
-        users.put("user2", dharmendra);
-
-        database.put("users", users);
-        database.insert("InsertAPI", "user3", "name", "Leela");
-        // Save database
+        // database.load();
+        // Insert API
+        database.insert("users", "user1", "name", "Jayesh");
+        database.insert("users", "user1", "age", 21);
+        database.insert("users", "user2", "name", "Dharmendra");
+        database.insert("users", "user2", "age", 24);
+        database.insert("users", "user3", "name", "Dharmedscsdcdscndra");
+        database.insert("users", "user3", "age", 24);
+        //Update API
+        database.update("users", "name", "Jayesh", "age", 23);
+        //Find API
+        System.out.println(database.find("users", "name", "Jayesh"));
+        //SAVE()
         database.save();
-
         System.out.println("Database saved!");
-        System.out.println(database.find("InsertAPI", "name", "Leela"));
     }
 }
