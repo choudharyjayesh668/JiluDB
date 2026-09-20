@@ -1,6 +1,7 @@
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Database{
 
@@ -161,5 +162,27 @@ public class Database{
             currentCollection.put(documentName,currDocument);
         }
         currDocument.put(key, value);
+    }
+    public HashMap<String, Document> find(String collectionName, String key, Object value) {
+        HashMap<String, Document> result = new HashMap<>();
+        if (collections.containsKey(collectionName)) {
+            Collection currCollection = collections.get(collectionName);
+            HashMap<String, Document> allDocument = currCollection.getAll();
+            for (Map.Entry<String, Document> entry : allDocument.entrySet()) {
+                Document currLoopDocument = entry.getValue();
+                HashMap<String, Object> documentData = currLoopDocument.getAll();
+                if (documentData.containsKey(key)) {
+                    Object currentValue = documentData.get(key);
+                    if (Objects.equals(currentValue, value)) {
+                        System.out.println("Found");
+                        result.put(entry.getKey(), entry.getValue());
+                    }
+                }
+            }
+            return result;
+        } else {
+            System.out.println("Collection Doesent exist");
+            return null;
+        }
     }
 }

@@ -23,5 +23,6 @@ public class Main{
         database.save();
 
         System.out.println("Database saved!");
+        System.out.println(database.find("InsertAPI", "name", "Leela"));
     }
 }

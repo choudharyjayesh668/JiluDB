@@ -18,7 +18,7 @@ public class Document{
     public void remove(String key){
         data.remove(key);
     }
-    public Object getAll(){
+    public HashMap<String, Object> getAll(){
         return data;
     }
     @Override 
